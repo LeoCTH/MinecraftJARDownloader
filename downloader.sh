@@ -44,7 +44,7 @@ function downloadServer() {
 	echo ""
 	echo "Link retrieved."
 	
-	suburl=$(cat link.tmp | grep -oiP -e $regex) # REGEX
+	suburl=$(cat link.tmp | egrep -oi -e $regex) # REGEX
 	echo "SubUrl: $suburl"
 	fullurl=https://launcher.mojang.com/$suburl
 	echo "FullUrl: $fullurl"
@@ -60,7 +60,7 @@ function downloadServer() {
 		echo "Saving into $localDir"
 		curl $fullurl -# -o ./jars/$1/minecraft_server.$1.jar --retry-max-time 60
 	fi
-	rm link.tmp #clean up
+    rm link.tmp #clean up
 }
 
 function downloadClient() {
@@ -155,14 +155,21 @@ echo "| Minecraft JAR Downloader |"
 echo "| version 1.0 - by LeoCTH  |"
 echo "============================"
 
+echo ""
+echo "Creating jars folder"
+if [ ! -d "jars" ]
+then
+    mkdir jars
+fi
+
 for version in $@
 do
 {
 	echo ""
 	echo "Creating target folder for version $version"
-	if [ ! -d "./jars/$version" ]
+	if [ ! -d "jars/$version" ]
 	then
-		mkdir ./jars/$version
+		mkdir jars/$version
 	fi
 
 	if [ $f -ne 0 ]

@@ -1,3 +1,4 @@
 jars
 *.log
 *.tmp
+.DS_Store
